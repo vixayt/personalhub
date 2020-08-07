@@ -3,7 +3,7 @@ import Layout from '../components/Layout';
 import { useState } from 'react';
 
 function Budget({ data }) {
-  console.log(data);
+  // console.log(data);
   const info = data.body.Item;
   return (
     <Layout>

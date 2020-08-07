@@ -1,12 +1,19 @@
+import { useState } from 'react';
 import Head from 'next/head';
 import Header from '../components/Header';
 import Layout from '../components/Layout';
 import ReactAnimatedWeather from 'react-animated-weather';
 
-function Weather({ data }) {
-  console.log(data);
-  let city = data.city;
-  city = city.charAt(0).toUpperCase() + city.slice(1);
+function Weather({ propData }) {
+  const [data, setData] = useState(propData);
+  const [city, setCity] = useState(propData.city);
+
+  const getWeather = async (city) => {
+    const res = await fetch(
+      `https://ng7sjo6lva.execute-api.us-west-2.amazonaws.com/Prod/${city}`
+    );
+    setData(await res.json());
+  };
 
   const getWeatherIcon = (param) => {
     switch (param) {
@@ -39,9 +46,31 @@ function Weather({ data }) {
         <title>Home Weather</title>
         <script src="https://rawgithub.com/darkskyapp/skycons/master/skycons.js"></script>
       </Head>
-      <div>Current Weather for {city}</div>
+      <div style={{ float: 'left' }}>
+        Current Weather for
+        <span className="form-group input-group">
+          <input
+            type="text"
+            className="form-control"
+            placeholder={city}
+            id="inputDefault"
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+          />
+          <button
+            style={{ float: 'left' }}
+            type="button"
+            className="btn btn-primary"
+            onClick={() => getWeather(city)}
+          >
+            Search
+          </button>
+        </span>
+      </div>
       <br />
-      <div className="card mx-auto" style={{ width: '18rem' }}>
+      <br />
+      <br />
+      <div className="card" style={{ width: '18rem' }}>
         <div className="card-body">
           <h5 className="card-title">Today's Forecast</h5>
           <p className="card-text">
@@ -63,6 +92,7 @@ function Weather({ data }) {
             <div
               className="card"
               style={{ width: '18rem', display: 'inline-block' }}
+              key={weather.time}
             >
               <div className="card-body">
                 <h5 className="card-title">{date.toDateString()}</h5>
@@ -91,10 +121,10 @@ export async function getServerSideProps() {
   const res = await fetch(
     `https://ng7sjo6lva.execute-api.us-west-2.amazonaws.com/Prod/`
   );
-  const data = await res.json();
+  const propData = await res.json();
 
   // Pass data to the page via props
-  return { props: { data } };
+  return { props: { propData } };
 }
 
 export default Weather;

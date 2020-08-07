@@ -5,3 +5,6 @@ module.exports = withCSS({
     url: false,
   },
 });
+module.exports = {
+  target: 'serverless',
+};

@@ -1,31 +1,24 @@
 import Link from 'next/link';
 import Head from 'next/head';
 import styles from './Header.module.css';
+import { Navbar } from 'react-bootstrap';
 
 export default function Header() {
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-      <Link href="/">
-        <a className="navbar-brand">Home</a>
-      </Link>
-      <button
-        className="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarColor02"
-        aria-controls="navbarColor02"
-        aria-expanded="true"
-        aria-label="Toggle navigation"
-      >
-        <span className="navbar-toggler-icon"></span>
-      </button>
-      <div className="collapse navbar-collapse" id="navbarColor02">
+    <Navbar className="navbar navbar-expand-lg navbar-dark bg-dark">
+      <Navbar.Brand>
+        <Link href="/">
+          <a className="navbar-brand">Home</a>
+        </Link>
+      </Navbar.Brand>
+      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Navbar.Collapse className="collapse navbar-collapse" id="navbarColor02">
         <ul className="navbar-nav mr-auto">
-          <li className="nav-item">
+          {/* <li className="nav-item">
             <Link href="/about">
               <a className="nav-link">About Me</a>
             </Link>
-          </li>
+          </li> */}
           <li className="nav-item">
             <Link href="/weather">
               <a className="nav-link">Weather</a>
@@ -47,7 +40,7 @@ export default function Header() {
             </Link>
           </li>
         </ul>
-      </div>
-    </nav>
+      </Navbar.Collapse>
+    </Navbar>
   );
 }
